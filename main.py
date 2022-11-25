@@ -1,4 +1,5 @@
 import turtle
+import images
 
 found = []
 
@@ -31,7 +32,7 @@ cities = [{"id":22,"city":"Edirne", "x": -515.0, "y": 197.0 ,"rotate": 0, "fonts
 {"id":41,"city":"Kocaeli", "x": -319.0 , "y":159.0 ,"rotate": 0, "fontsize":12 },
 {"id":77,"city":"Yalova", "x":-371.0, "y":145.0 ,"rotate": 0, "fontsize":12 }]
 
-image = "./map.gif"
+image = "./images/unnamed.gif"
 screen = turtle.Screen()
 screen.setup(1250,712)
 screen.addshape(image)
