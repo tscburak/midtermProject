@@ -1,7 +1,18 @@
 import turtle
 import city
 
+numberOfCities = 81
+count = 0
+cities = city.getCities()
 found = []
+
+image = "./images/unnamed.gif"
+
+screen = turtle.Screen()
+screen.setup(1250, 712)
+screen.addshape(image)
+
+input = ""
 
 def putText(text, position_X, positiyon_Y):
     box = turtle.Turtle()
@@ -25,15 +36,6 @@ def isValid(list, key, value):
 
 
 
-cities = city.getCities()
-
-image = "./images/unnamed.gif"
-screen = turtle.Screen()
-screen.setup(1250, 712)
-screen.addshape(image)
-input = ""
-
-
 while input != "-1":
     turtle.shape(image)
     input = screen.textinput("User Input", "Write a City Name")
@@ -42,4 +44,5 @@ while input != "-1":
     result = isValid(cities,"city", input.strip())
     if result != {}:
         putText(result["city"], int(result["x"]), int(result["y"]))
-
+        count += 1
+        print(f"Guessed correctly: {count}. And remaning city number is {numberOfCities-count}")
