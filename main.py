@@ -1,8 +1,7 @@
 import turtle
 import city
+import tkinter as tk
 
-numberOfCities = 81
-count = 0
 cities = city.getCities()
 found = []
 
@@ -29,20 +28,23 @@ def get_mouse_click_coor(x, y):
 
 def isValid(list, key, value):
     for element in list:
-        print(element[key] == value)
-        if element[key] == value:
+        if element[key].lower() == value and element["id"] in found:
+            return {"message": element[key] + " is already found.", "statusCode": 409, "reason_id": element["id"]}
+        if element[key].lower() == value:
+            element["statusCode"] = 200
             return element
-    return {}
-
-
+    return {"message": "Incorrect.", "statusCode": 404, "reason_id": None}
 
 while input != "-1":
     turtle.shape(image)
     input = screen.textinput("User Input", "Write a City Name")
 
-    # turtle.onscreenclick(get_mouse_click_coor)
-    result = isValid(cities,"city", input.strip())
-    if result != {}:
+    result = isValid(cities,"city", input.strip().lower())
+    if result["statusCode"] == 200:
         putText(result["city"], int(result["x"]), int(result["y"]))
-        count += 1
-        print(f"Guessed correctly: {count}. And remaning city number is {numberOfCities-count}")
+        found.append(result["id"])
+        print(f"Guessed correctly: {len(found)}. And remaning city number is {len(cities)-len(found)}")
+    elif result["statusCode"] == 409:
+        tk.messagebox.showinfo(title=result["statusCode"], message=result["message"])
+    elif result["statusCode"] == 404:
+        tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
