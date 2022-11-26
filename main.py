@@ -64,6 +64,7 @@ def get_mouse_click_coor(x, y):
 
 def local_lower_case(text):
     # Iğdır => iğdır
+    text = text.replace(" ", "")
     text = text.replace("İ","i")
     text = text.replace("I","i")
     text = text.replace("ı","i")
@@ -79,9 +80,9 @@ def local_lower_case(text):
 
 def isValid(list, value):
     for element in list:
-        if local_lower_case(element["city"]) == value and element["id"] in found:
+        if value in element["alias"] and element["id"] in found:
             return {"message": element["city"] + " is already found.", "statusCode": 409, "reason_city": element}
-        if local_lower_case(element["city"]) == value:
+        if value in element["alias"]:
             element["statusCode"] = 200
             return element
     return {"message": "Incorrect.", "statusCode": 404, "reason_city": None}
