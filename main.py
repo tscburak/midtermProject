@@ -1,9 +1,12 @@
+import random
 import turtle
 import city
 import tkinter as tk
 
 cities = city.getCities()
 found = []
+numberOfCities = 82
+wildCardCounter = 3
 
 image = "./images/unnamed.gif"
 screen = turtle.Screen()
@@ -17,7 +20,20 @@ instructor = turtle.Turtle()
 
 scoreTable = turtle.Turtle()
 
+wildCard = turtle.Turtle()
 
+def drawWildCards():
+    wildCard.reset()
+    wildCard.hideturtle()
+    wildCard.penup()
+    wildCard.speed(0)
+    wildCard.sety(280)
+    wildCard.setx(480)
+    wildCard.color("yellow")
+    icon = ""
+    for i in range(wildCardCounter):
+        icon += "💡"
+    wildCard.write(icon, move=False, align="center", font=("calibri", 21, "bold"))
 
 def draw_circle(position_x, position_y, letter_count):
     r = letter_count * 7
@@ -38,14 +54,15 @@ def hide_circle():
     instructor.reset()
     instructor.hideturtle()
 
+
 def changeScore(score=0):
     scoreTable.reset()
     scoreTable.hideturtle()
     scoreTable.penup()
     scoreTable.speed(0)
     scoreTable.sety(330)
-    scoreTable.write(f"Guessed correctly: {len(found)}. And remaning city number is {len(cities) - len(found)}", align="center")
-    scoreTable.write(f"Guessed correctly: {len(found)}. And remaning city number is {len(cities) - len(found)}", align = "center")
+    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {numberOfCities - len(found)}", align="center")
+    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {numberOfCities - len(found)}", align = "center")
 
 
 def putText(text, position_x, position_y, fontsize):
@@ -62,6 +79,7 @@ def putText(text, position_x, position_y, fontsize):
 def get_mouse_click_coor(x, y):
     print(x, y)
 
+
 def local_lower_case(text):
     # Iğdır => iğdır
     text = text.replace("İ","i")
@@ -77,6 +95,7 @@ def local_lower_case(text):
 
     return text
 
+
 def isValid(list, value):
     for element in list:
         if local_lower_case(element["city"]) == value and element["id"] in found:
@@ -86,18 +105,43 @@ def isValid(list, value):
             return element
     return {"message": "Incorrect.", "statusCode": 404, "reason_city": None}
 
+
 turtle.shape(image)
 changeScore()
 
+
 while len(found) < len(cities):
-    input = screen.textinput("User Input", "Write a City Name")
+    drawWildCards()
+    if wildCardCounter > 0:
+        infoMessage = "Write a City Name\nType h to use joker"
+    else:
+        infoMessage = "Write a City Name"
+
+    input = screen.textinput("User Input", infoMessage)
+    result = isValid(cities, local_lower_case(input.strip()))
+
     if input is None:
         break
-    result = isValid(cities, local_lower_case(input.strip()))
-    if result["statusCode"] == 200:
+
+    #wildCard feature
+    if input == "h":
+        if(wildCardCounter == 0):
+            tk.messagebox.showinfo(title="Bad request", message="Your jokers are over")
+        else:
+            index = random.randint(0, len(cities))
+            print(len(cities))
+            jokerCity = cities[index]
+            putText(jokerCity["city"], int(jokerCity["x"]), int(jokerCity["y"]), jokerCity["fontsize"])
+            wildCardCounter -= 1
+            found.append(jokerCity)
+            cities.remove(jokerCity)
+            changeScore()
+    #end of wildCard feauture
+    elif result["statusCode"] == 200:
         putText(result["city"], int(result["x"]), int(result["y"]), result["fontsize"])
         found.append(result["id"])
         changeScore()
+        cities.remove(result)
     elif result["statusCode"] == 409:
         result_city = result["reason_city"]
         draw_circle(result_city["x"], result_city["y"], len(result_city["city"]))
@@ -105,5 +149,10 @@ while len(found) < len(cities):
         hide_circle()
     elif result["statusCode"] == 404:
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
+
 if len(found) == len(cities):
     tk.messagebox.showinfo(title="Congrats", message="You found all the cities!")
+
+
+
+
