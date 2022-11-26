@@ -1,6 +1,18 @@
 import turtle
+import city
 
+numberOfCities = 81
+count = 0
+cities = city.getCities()
 found = []
+
+image = "./images/unnamed.gif"
+
+screen = turtle.Screen()
+screen.setup(1250, 712)
+screen.addshape(image)
+
+input = ""
 
 def putText(text, position_X, positiyon_Y):
     box = turtle.Turtle()
@@ -24,19 +36,6 @@ def isValid(list, key, value):
 
 
 
-cities = [{"id":22,"city":"Edirne", "x": -515.0, "y": 197.0 ,"rotate": 0, "fontsize":12 },
-{"id":39,"city":"Kırklareli", "x": -459.0, "y": 238.0 ,"rotate": 0, "fontsize":12 },
-{"id":59,"city":"Tekirdağ", "x": -468.0, "y": 187.0 ,"rotate": 0 ,"fontsize":12 },
-{"id":34,"city":"İstanbul", "x": -402.0, "y": 191.0 ,"rotate": 0, "fontsize":12 },
-{"id":41,"city":"Kocaeli", "x": -319.0 , "y":159.0 ,"rotate": 0, "fontsize":12 },
-{"id":77,"city":"Yalova", "x":-371.0, "y":145.0 ,"rotate": 0, "fontsize":12 }]
-
-image = "./map.gif"
-screen = turtle.Screen()
-screen.setup(1250,712)
-screen.addshape(image)
-input = ""
-
 while input != "-1":
     turtle.shape(image)
     input = screen.textinput("User Input", "Write a City Name")
@@ -45,3 +44,5 @@ while input != "-1":
     result = isValid(cities,"city", input.strip())
     if result != {}:
         putText(result["city"], int(result["x"]), int(result["y"]))
+        count += 1
+        print(f"Guessed correctly: {count}. And remaning city number is {numberOfCities-count}")
