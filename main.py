@@ -19,7 +19,7 @@ scoreTable = turtle.Turtle()
 
 
 
-def underline(position_x, position_y, letter_count):
+def draw_circle(position_x, position_y, letter_count):
     r = letter_count * 7
     instructor.hideturtle()
     instructor.width(3)
@@ -34,7 +34,7 @@ def underline(position_x, position_y, letter_count):
         instructor.circle(r, 90)
         instructor.circle(r // 3, 90)
 
-def hideUnderline():
+def hide_circle():
     instructor.reset()
     instructor.hideturtle()
 
@@ -88,8 +88,7 @@ def isValid(list, value):
 
 turtle.shape(image)
 changeScore()
-print(local_lower_case("Iğdır"))
-print("Ürdün".lower())
+
 while len(found) < len(cities):
     input = screen.textinput("User Input", "Write a City Name")
     if input is None:
@@ -101,9 +100,9 @@ while len(found) < len(cities):
         changeScore()
     elif result["statusCode"] == 409:
         result_city = result["reason_city"]
-        underline(result_city["x"], result_city["y"], len(result_city["city"]))
+        draw_circle(result_city["x"], result_city["y"], len(result_city["city"]))
         tk.messagebox.showinfo(title=result["statusCode"], message=result["message"])
-        hideUnderline()
+        hide_circle()
     elif result["statusCode"] == 404:
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
 if len(found) == len(cities):
