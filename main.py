@@ -26,11 +26,11 @@ def putText(text, position_X, positiyon_Y):
 def get_mouse_click_coor(x, y):
     print(x, y)
 
-def isValid(list, key, value):
+def isValid(list, value):
     for element in list:
-        if element[key].lower() == value and element["id"] in found:
-            return {"message": element[key] + " is already found.", "statusCode": 409, "reason_id": element["id"]}
-        if element[key].lower() == value:
+        if element["city"].lower() == value and element["id"] in found:
+            return {"message": element["city"] + " is already found.", "statusCode": 409, "reason_id": element["id"]}
+        if element["city"].lower() == value:
             element["statusCode"] = 200
             return element
     return {"message": "Incorrect.", "statusCode": 404, "reason_id": None}
@@ -39,12 +39,12 @@ while input != "-1":
     turtle.shape(image)
     input = screen.textinput("User Input", "Write a City Name")
 
-    result = isValid(cities,"city", input.strip().lower())
+    result = isValid(cities, input.strip().lower())
     if result["statusCode"] == 200:
         putText(result["city"], int(result["x"]), int(result["y"]))
         found.append(result["id"])
-        print(f"Guessed correctly: {len(found)}. And remaning city number is {len(cities)-len(found)}")
     elif result["statusCode"] == 409:
         tk.messagebox.showinfo(title=result["statusCode"], message=result["message"])
     elif result["statusCode"] == 404:
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
+    print(f"Guessed correctly: {len(found)}. And remaning city number is {len(cities)-len(found)}")
