@@ -6,7 +6,7 @@ import itertools as it
 
 cities = city.getCities()
 found = []
-wildCardCounter = 5
+wildCardCounter = 5  # the user will have 5 joker right.
 
 image = "./images/unnamed.gif"
 screen = turtle.Screen()
@@ -30,7 +30,7 @@ def drawWildCards():
     wildCard.speed(0)
     wildCard.sety(280)
     wildCard.setx(480)
-    wildCard.color("yellow")
+    wildCard.color("#FEDE00")
     icon = ""
     for i in range(wildCardCounter):
         icon += "💡"
@@ -40,7 +40,6 @@ def getRandomCity():
     #collection: will store datas of (cities - found) transaction
     collection = [x for x, y in it.zip_longest(cities, found) if x != y]
     index = random.randint(0, len(collection))
-    collection[index]["statusCode"] = 200
     return collection[index]
 
 
@@ -142,7 +141,7 @@ while len(found) < len(cities):
             print(jokerCity)
             putText(jokerCity["city"], int(jokerCity["x"]), int(jokerCity["y"]), jokerCity["fontsize"])
             wildCardCounter -= 1
-            found.append(jokerCity)
+            found.append(jokerCity["id"])
             changeScore()
     #end of wildCard feauture
     elif result["statusCode"] == 200:
