@@ -22,6 +22,8 @@ scoreTable = turtle.Turtle()
 
 wildCard = turtle.Turtle()
 
+score = 0
+stack = 0
 
 def drawWildCards():
     wildCard.reset()
@@ -69,10 +71,17 @@ def changeScore(score=0):
     scoreTable.hideturtle()
     scoreTable.penup()
     scoreTable.speed(0)
-    scoreTable.sety(330)
-    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {len(cities) - len(found)}", align="center")
-    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {len(cities) - len(found)}", align = "center")
+    scoreTable.sety(290)
+    scoreTable.write(str(score), font=("calibri", 40, "bold"),  align="center")
+    scoreTable.goto(0, scoreTable.ycor() - 10)
+    scoreTable.write(f"{len(found)}/{len(cities) - len(found)}",font=("calibri", 12, "normal"), align="center")
 
+def addscore(current):
+    if stack == 1:
+        text_score = 10
+    else:
+        text_score = (stack * 5) + 10
+    return current + text_score
 
 def putText(text, position_x, position_y, fontsize):
     box = turtle.Turtle()
@@ -127,10 +136,11 @@ while len(found) < len(cities):
         infoMessage = "Write a City Name"
 
     input = screen.textinput("User Input", infoMessage)
-    result = isValid(cities, local_lower_case(input.strip()))
 
     if input is None:
         break
+
+    result = isValid(cities, local_lower_case(input.strip()))
 
     #wildCard feature
     if input == "h":
@@ -145,9 +155,11 @@ while len(found) < len(cities):
             changeScore()
     #end of wildCard feauture
     elif result["statusCode"] == 200:
+        stack = stack + 1
         putText(result["city"], int(result["x"]), int(result["y"]), result["fontsize"])
         found.append(result["id"])
-        changeScore()
+        score = addscore(score)
+        changeScore(score)
     elif result["statusCode"] == 409:
         result_city = result["reason_city"]
         draw_circle(result_city["x"], result_city["y"], len(result_city["city"]))
