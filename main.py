@@ -2,11 +2,11 @@ import random
 import turtle
 import city
 import tkinter as tk
+import itertools as it
 
 cities = city.getCities()
 found = []
-numberOfCities = 82
-wildCardCounter = 3
+wildCardCounter = 5
 
 image = "./images/unnamed.gif"
 screen = turtle.Screen()
@@ -22,6 +22,7 @@ scoreTable = turtle.Turtle()
 
 wildCard = turtle.Turtle()
 
+
 def drawWildCards():
     wildCard.reset()
     wildCard.hideturtle()
@@ -34,6 +35,14 @@ def drawWildCards():
     for i in range(wildCardCounter):
         icon += "💡"
     wildCard.write(icon, move=False, align="center", font=("calibri", 21, "bold"))
+
+def getRandomCity():
+    #collection: will store datas of (cities - found) transaction
+    collection = [x for x, y in it.zip_longest(cities, found) if x != y]
+    index = random.randint(0, len(collection))
+    collection[index]["statusCode"] = 200
+    return collection[index]
+
 
 def draw_circle(position_x, position_y, letter_count):
     r = letter_count * 7
@@ -50,6 +59,7 @@ def draw_circle(position_x, position_y, letter_count):
         instructor.circle(r, 90)
         instructor.circle(r // 3, 90)
 
+
 def hide_circle():
     instructor.reset()
     instructor.hideturtle()
@@ -61,8 +71,8 @@ def changeScore(score=0):
     scoreTable.penup()
     scoreTable.speed(0)
     scoreTable.sety(330)
-    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {numberOfCities - len(found)}", align="center")
-    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {numberOfCities - len(found)}", align = "center")
+    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {len(cities) - len(found)}", align="center")
+    scoreTable.write(f"Guessed correctly {len(found)}, and remaning city number is {len(cities) - len(found)}", align = "center")
 
 
 def putText(text, position_x, position_y, fontsize):
@@ -128,20 +138,17 @@ while len(found) < len(cities):
         if(wildCardCounter == 0):
             tk.messagebox.showinfo(title="Bad request", message="Your jokers are over")
         else:
-            index = random.randint(0, len(cities))
-            print(len(cities))
-            jokerCity = cities[index]
+            jokerCity = getRandomCity()
+            print(jokerCity)
             putText(jokerCity["city"], int(jokerCity["x"]), int(jokerCity["y"]), jokerCity["fontsize"])
             wildCardCounter -= 1
             found.append(jokerCity)
-            cities.remove(jokerCity)
             changeScore()
     #end of wildCard feauture
     elif result["statusCode"] == 200:
         putText(result["city"], int(result["x"]), int(result["y"]), result["fontsize"])
         found.append(result["id"])
         changeScore()
-        cities.remove(result)
     elif result["statusCode"] == 409:
         result_city = result["reason_city"]
         draw_circle(result_city["x"], result_city["y"], len(result_city["city"]))
