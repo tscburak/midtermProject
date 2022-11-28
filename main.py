@@ -24,6 +24,7 @@ wildCard = turtle.Turtle()
 
 score = 0
 stack = 0
+added_score = 10
 
 def drawWildCards():
     wildCard.reset()
@@ -66,22 +67,37 @@ def hide_circle():
     instructor.hideturtle()
 
 
-def changeScore(score=0):
+def showScoreTable(score=0):
     scoreTable.reset()
     scoreTable.hideturtle()
     scoreTable.penup()
     scoreTable.speed(0)
-    scoreTable.sety(290)
-    scoreTable.write(str(score), font=("calibri", 40, "bold"),  align="center")
+    scoreTable.sety(280)
+    scoreTable.write(score, font=("calibri", 40, "bold"),  align="center")
+    scoreTable.goto(scoreTable.xcor() + 20, scoreTable.ycor()+47)
+    scoreTable.write(f"+{added_score}", font=("calibri", 15, "bold"), align="left")
+    scoreTable.goto(scoreTable.xcor() - 20, scoreTable.ycor() - 47)
     scoreTable.goto(0, scoreTable.ycor() - 10)
-    scoreTable.write(f"{len(found)}/{len(cities) - len(found)}",font=("calibri", 12, "normal"), align="center")
+    scoreTable.write(f"{len(found)}/{len(cities)}",font=("calibri", 12, "normal"), align="center")
 
-def addscore(current):
-    if stack == 1:
-        text_score = 10
+    if(stack > 1):
+        scoreTable.goto(0, scoreTable.ycor() - 15)
+        style = ("calibri", 8, "normal")
+        if stack == 2:
+            scoreTable.write(f"You are doing well. Keep going.", font=style, align="center")
+        if stack == 3:
+            scoreTable.write(f"Hey! Slow down!", font=style, align="center")
+        if stack == 4:
+            scoreTable.write(f"Amazing!", font=style, align="center")
+        if stack == 5:
+            scoreTable.write(f"You are on fire!!!", font=style, align="center")
+
+
+def added_score_calc():
+    if stack > 1:
+        return ((stack-1) * 5) + 10
     else:
-        text_score = (stack * 5) + 10
-    return current + text_score
+        return 10
 
 def putText(text, position_x, position_y, fontsize):
     box = turtle.Turtle()
@@ -125,7 +141,7 @@ def isValid(list, value):
 
 
 turtle.shape(image)
-changeScore()
+showScoreTable()
 
 
 while len(found) < len(cities):
@@ -152,24 +168,31 @@ while len(found) < len(cities):
             putText(jokerCity["city"], int(jokerCity["x"]), int(jokerCity["y"]), jokerCity["fontsize"])
             wildCardCounter -= 1
             found.append(jokerCity["id"])
-            changeScore()
+
     #end of wildCard feauture
     elif result["statusCode"] == 200:
-        stack = stack + 1
+        if(stack < 5):
+            stack = stack + 1
         putText(result["city"], int(result["x"]), int(result["y"]), result["fontsize"])
         found.append(result["id"])
-        score = addscore(score)
-        changeScore(score)
+        score = score + added_score
+
+
     elif result["statusCode"] == 409:
+        stack = 0
         result_city = result["reason_city"]
         draw_circle(result_city["x"], result_city["y"], len(result_city["city"]))
         tk.messagebox.showinfo(title=result["statusCode"], message=result["message"])
         hide_circle()
     elif result["statusCode"] == 404:
+        stack = 0
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
 
+    added_score = added_score_calc()
+    showScoreTable(score)
+
 if len(found) == len(cities):
-    tk.messagebox.showinfo(title="Congrats", message="You found all the cities!")
+    tk.messagebox.showinfo(title="Congrats", message=f"You found all the cities! Your score is {score}")
 
 
 
