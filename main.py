@@ -24,7 +24,7 @@ wildCard = turtle.Turtle()
 
 score = 0
 stack = 0
-added_score = 10
+adding_score = 10
 
 def drawWildCards():
     wildCard.reset()
@@ -75,7 +75,7 @@ def showScoreTable(score=0):
     scoreTable.sety(280)
     scoreTable.write(score, font=("calibri", 40, "bold"),  align="center")
     scoreTable.goto(scoreTable.xcor() + 20, scoreTable.ycor()+47)
-    scoreTable.write(f"+{added_score}", font=("calibri", 15, "bold"), align="left")
+    scoreTable.write(f"+{adding_score}", font=("calibri", 15, "bold"), align="left")
     scoreTable.goto(scoreTable.xcor() - 20, scoreTable.ycor() - 47)
     scoreTable.goto(0, scoreTable.ycor() - 10)
     scoreTable.write(f"{len(found)}/{len(cities)}",font=("calibri", 12, "normal"), align="center")
@@ -93,7 +93,7 @@ def showScoreTable(score=0):
             scoreTable.write(f"You are on fire!!!", font=style, align="center")
 
 
-def added_score_calc():
+def adding_score_calc():
     if stack > 1:
         return ((stack-1) * 5) + 10
     else:
@@ -175,7 +175,7 @@ while len(found) < len(cities):
             stack = stack + 1
         putText(result["city"], int(result["x"]), int(result["y"]), result["fontsize"])
         found.append(result["id"])
-        score = score + added_score
+        score = score + adding_score
 
 
     elif result["statusCode"] == 409:
@@ -188,7 +188,7 @@ while len(found) < len(cities):
         stack = 0
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
 
-    added_score = added_score_calc()
+    adding_score = adding_score_calc()
     showScoreTable(score)
 
 if len(found) == len(cities):
