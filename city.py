@@ -81,5 +81,5 @@ def get_cities():
         {"id": 79, "city": "Kilis", "alias": ["kilis"], "x": 99.0, "y": -175.0, "font_size": 12},
         {"id": 80, "city": "Osmaniye", "alias": ["osmaniye"], "x": 49.0, "y": -132.0, "font_size": 12},
         {"id": 81, "city": "Düzce", "alias": ["duzce"], "x": -242.0, "y": 158.0, "font_size": 12},
-        {"id": 201, "city": "KKTC", "alias": ["kktc", "kibris", "kuzeykibris", "kuzeykibristurkcumhuriyeti"],  "x": -115.0, "y": -285.0, "font_size": 24},
+        {"id": 82, "city": "KKTC", "alias": ["kktc", "kibris", "kuzeykibris", "kuzeykibristurkcumhuriyeti"],  "x": -115.0, "y": -285.0, "font_size": 24},
     ]

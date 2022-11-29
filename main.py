@@ -4,11 +4,10 @@
 190209031 Burak Taşçı
 """
 
-import random
 import turtle
 import city
 import tkinter as tk
-import itertools as it
+from random import choice
 
 cities = city.get_cities()
 founds = set()
@@ -53,11 +52,10 @@ def draw_wildcards():
 
 # picks random city which is not found yet.
 def get_random_city():
-    # collection: will store data of (cities - founds) transaction
-    collection = [x for x, y in it.zip_longest(cities, founds) if x != y]
-    index = random.randint(0, len(collection))
-    print(collection[index])
-    return collection[index]
+    # index = random_city["id"]
+    index = choice([i for i in range(1, (len(cities)) + 1) if i not in founds])
+    random_city = cities[(index-1)]
+    return random_city
 
 
 # draws circle to show duplicate city.
@@ -169,6 +167,7 @@ def is_valid(list, value):
 turtle.shape(image)
 show_score_table()
 
+
 # the screen will display until the cities are over.
 while len(founds) < len(cities):
     draw_wildcards()
@@ -216,7 +215,3 @@ while len(founds) < len(cities):
 
 if len(founds) == len(cities):
     tk.messagebox.showinfo(title="Congrats", message=f"You found all the cities! Your score is {score}")
-
-
-
-
