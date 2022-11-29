@@ -212,7 +212,7 @@ while len(founds) < len(cities):
         tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
 
     adding_score = adding_score_calc()
-    show_score_table(score)
+    show_score_table()
 
 if len(founds) == len(cities):
     tk.messagebox.showinfo(title="Congrats", message=f"You found all the cities! Your score is {score}")
