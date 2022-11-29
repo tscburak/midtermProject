@@ -159,11 +159,11 @@ def local_lower_case(text):
 def is_valid(list, value):
     for element in list:
         if value in element["alias"] and element["id"] in founds:
-            return {"message": element["city"] + " is already founds.", "statusCode": 409, "reason_city": element}
+            return {"message": element["city"] + " is already founds.", "status_code": 409, "reason_city": element}
         if value in element["alias"]:
-            element["statusCode"] = 200
+            element["status_code"] = 200
             return element
-    return {"message": "Incorrect.", "statusCode": 404, "reason_city": None}
+    return {"message": "Incorrect.", "status_code": 404, "reason_city": None}
 
 
 turtle.shape(image)
@@ -194,22 +194,22 @@ while len(founds) < len(cities):
             wildcard_counter -= 1
             founds.add(jokerCity["id"])
             score = score + adding_score
-    elif result["statusCode"] == 200:
+    elif result["status_code"] == 200:
         if stack < 5:
             stack = stack + 1
         put_text(result["city"], int(result["x"]), int(result["y"]), result["font_size"])
         founds.add(result["id"])
         score = score + adding_score
 
-    elif result["statusCode"] == 409:
+    elif result["status_code"] == 409:
         stack = 0
         result_city = result["reason_city"]
         draw_circle(result_city["x"], result_city["y"], len(result_city["city"]), result_city["font_size"])
-        tk.messagebox.showinfo(title=result["statusCode"], message=result["message"])
+        tk.messagebox.showinfo(title=result["status_code"], message=result["message"])
         hide_circle()
-    elif result["statusCode"] == 404:
+    elif result["status_code"] == 404:
         stack = 0
-        tk.messagebox.showerror(title=result["statusCode"], message=result["message"])
+        tk.messagebox.showerror(title=result["status_code"], message=result["message"])
 
     adding_score = adding_score_calc()
     show_score_table()
