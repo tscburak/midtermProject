@@ -1,6 +1,6 @@
 """
 180209023 İlayda Bakırcıoğlu
-190209018 Mehmet Ali Mergen
+190209019 Mehmet Ali Mergen
 190209031 Burak Taşçı
 """
 
