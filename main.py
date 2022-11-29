@@ -4,11 +4,9 @@
 190209031 Burak Taşçı
 """
 
-import random
 import turtle
 import city
 import tkinter as tk
-import itertools as it
 
 cities = city.get_cities()
 founds = set()
