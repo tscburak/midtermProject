@@ -22,4 +22,9 @@ This repo is created to work together for Programming with Python course midterm
 - There is a wildcards feature.
   - User has only 5 wildcard.
   - If the user stucks, can use the wildcards.
-  - If the user uses it, they get the planning/added score but he/she will lost the stacks.
+  - If the user uses it, they will get the score but he/she will lost the stacks.
+
+# Contributors
+- [Ilayda Bakırcıoğlu](https://github.com/ilaydabkrc)
+- [Mehmet Ali Mergen](https://github.com/mehmetali10)
+- [Burak Taşçı](https://github.com/tscburak)
