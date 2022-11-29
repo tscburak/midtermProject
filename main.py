@@ -35,6 +35,7 @@ score = 0
 stack = 0
 adding_score = 10
 
+
 # draws wildcards to the right of the screen
 def draw_wildcards():
     wildcard.reset()
@@ -52,7 +53,7 @@ def draw_wildcards():
 
 # picks random city which is not found yet.
 def get_random_city():
-    #collection: will store data of (cities - founds) transaction
+    # collection: will store data of (cities - founds) transaction
     collection = [x for x, y in it.zip_longest(cities, founds) if x != y]
     index = random.randint(0, len(collection))
     print(collection[index])
@@ -83,7 +84,7 @@ def hide_circle():
 
 
 # shows score table with its details. (score, guessed city/total city, motivation, adding score)
-def show_score_table(score=0):
+def show_score_table():
     score_table.reset()
     score_table.hideturtle()
     score_table.penup()
@@ -187,6 +188,7 @@ while len(founds) < len(cities):
         if wildcard_counter == 0:
             tk.messagebox.showinfo(title="Bad request", message="Your jokers are over")
         else:
+            stack = 0
             jokerCity = get_random_city()
             put_text(jokerCity["city"], int(jokerCity["x"]), int(jokerCity["y"]), jokerCity["font_size"])
             wildcard_counter -= 1
