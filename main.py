@@ -173,11 +173,11 @@ show_score_table()
 while len(founds) < len(cities):
     draw_wildcards()
     if wildcard_counter > 0:
-        infoMessage = "Write a City Name\nType h to use joker"
+        info_message = "Write a City Name\nType h to use joker"
     else:
-        infoMessage = "Write a City Name"
+        info_message = "Write a City Name"
 
-    input = screen.textinput("User Input", infoMessage)
+    input = screen.textinput("User Input", info_message)
 
     if input is None:
         break
