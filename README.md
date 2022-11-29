@@ -20,7 +20,8 @@ This repo is created to work together for Programming with Python course midterm
   - There is a motivation words such as "Amazing", "You are on fire!!!" which is displaying according to stack.
 - We are displaying score and added_score on the top of the screen.
 - There is a wildcards feature.
-  - User has only 5 wildcard.
+  - User has only 5 wildcards.
+  - User can use it by typing 'h' as input
   - If the user stucks, can use the wildcards.
   - If the user uses it, they will get the score but he/she will lost the stacks.
 
