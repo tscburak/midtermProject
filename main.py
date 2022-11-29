@@ -7,6 +7,7 @@
 import turtle
 import city
 import tkinter as tk
+from random import choice
 
 cities = city.get_cities()
 founds = set()
@@ -52,7 +53,6 @@ def draw_wildcards():
 # picks random city which is not found yet.
 def get_random_city():
     # index = random_city["id"]
-    from random import choice
     index = choice([i for i in range(1, (len(cities)) + 1) if i not in founds])
     random_city = cities[(index-1)]
     return random_city
